@@ -12,6 +12,6 @@ export const App = () => {
       <Searchbar/>
     </div>
   );
-};
+}; 
 
 
