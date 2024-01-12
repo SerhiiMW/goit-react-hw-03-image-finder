@@ -3,7 +3,7 @@ import styles from './searchbar.module.css';
 
 import Button from '../Button/Button';
 import Modal from '../Modal/Modal';
-import Loader from 'components/Loader/Loader';
+// import Loader from 'components/Loader/Loader';
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
 
 import { searchImg } from '../../api/image';
