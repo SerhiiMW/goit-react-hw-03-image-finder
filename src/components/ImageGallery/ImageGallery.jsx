@@ -1,15 +1,18 @@
-// import styles from "./imageGallery.module.css"
-// import imageGalleryItem from "components/ImageGalleryItem/ImageGalleryItem";
-
-// const imageGallery = () => {
-
-//     return (
-//         (<ul className={styles.list}>
-//             <imageGalleryItem/>
-//         </ul>)
-//     )
-// }
+import styles from "./imageGallery.module.css"
+import ImageGalleryItem from "components/ImageGalleryItem/ImageGalleryItem";
 
 
-// export default imageGallery;
+const ImageGallery = ( { showModal, items } ) => {
+    return (
+        <>
+            <ul className={styles.ImageGallery}>
+            {items.map(item => 
+                <ImageGalleryItem  key={item.id} showModal={showModal} largeImageURL={item.largeImageURL} webformatURL={item.webformatURL}  />
+            )}   
+            </ul>
+        </>
+ )}
+
+
+export default ImageGallery;
 

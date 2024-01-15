@@ -3,10 +3,11 @@ import styles from './searchbar.module.css';
 
 import Button from '../Button/Button';
 import Modal from '../Modal/Modal';
-// import Loader from 'components/Loader/Loader';
-import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
+import ImageGallery from 'components/ImageGallery/ImageGallery';
+import { RotatingLines } from 'react-loader-spinner';
 
 import { searchImg } from '../../api/image';
+
 
 class ImgSearchForm extends Component {
   state = {
@@ -36,7 +37,7 @@ class ImgSearchForm extends Component {
       <header className={styles.Searchbar}>
         <form onSubmit={handleSubmit} className={styles.SearchForm}>
           <button type="submit" className={styles.SearchFormButton}>
-            <span className={styles.SearchFormButtonLabel}>Search</span>
+            <span className={styles.SearchFormButtonLabel}>&#128269;</span>
           </button>
           <input
             value={search}
@@ -80,6 +81,7 @@ class ImgSearch extends Component {
       const { data } = await searchImg(search, page);
       this.setState(({ images }) => ({
         images: data.hits?.length ? [...images, ...data.hits] : images,
+        loadMoreBtn: this.state.page < Math.ceil(data.totalHits / 12 )
       }));
     } catch (error) {
       this.setState({
@@ -120,7 +122,7 @@ class ImgSearch extends Component {
 
   render() {
     const { handleSearch, loadMore, showModal, closeModal } = this;
-    const { images, loading, error, modalOpen, largeImg } = this.state;
+    const { images, loading, error, modalOpen, largeImg, loadMoreBtn } = this.state;
 
     const isImages = Boolean(images.length);
 
@@ -128,11 +130,9 @@ class ImgSearch extends Component {
       <>
         <ImgSearchForm onSubmit={handleSearch} />
         {error && <p className={styles.error}>{error}</p>}
-        {/* {loading && <Loader />} */}
-        {loading && <p>...Loading</p>}
-        {isImages && <ImageGalleryItem showModal={showModal} items={images} />}
-        {isImages && <ImageGalleryItem items={images} />}
-        {isImages && (
+        {loading && <RotatingLines />}
+        {isImages && <ImageGallery showModal={showModal} items={images} />}
+        {isImages && loadMoreBtn && (
           <div className={styles.loadMoreWrapper}>
             <Button onClick={loadMore} type="button">
               Load more
@@ -141,11 +141,7 @@ class ImgSearch extends Component {
         )}
         {modalOpen && (
           <Modal close={closeModal}>
-            <div>
-              <div>
-                <img className={styles.modalImg} src={largeImg} alt="" />
-              </div>
-            </div>
+              <img className={styles.modalImg} src={largeImg} alt="" />
           </Modal>
         )}
       </>
